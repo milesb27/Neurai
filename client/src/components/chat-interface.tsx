@@ -150,12 +150,6 @@ export function ChatInterface({ sessionId }: ChatInterfaceProps) {
               <div className="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 max-w-md">
                 <div className="text-gray-800 text-sm leading-relaxed">
                   <p className="mb-2">Hello! How can I assist you today? Here are some options:</p>
-                  <ul className="list-disc list-inside space-y-1 mb-2">
-                    <li>Scheduling an appointment</li>
-                    <li>Getting imaging</li>
-                    <li>Learning more about our doctors</li>
-                    <li>Something else</li>
-                  </ul>
                   <p className="text-red-600 font-medium">If this is an emergency, please call 911.</p>
                 </div>
               </div>
