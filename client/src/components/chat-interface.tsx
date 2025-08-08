@@ -83,6 +83,21 @@ export function ChatInterface({ sessionId }: ChatInterfaceProps) {
     return botMessages[botMessages.length - 1];
   };
 
+  const shouldShowInitialOptions = () => {
+    // Show initial options if no messages exist or after the initial greeting
+    return messages.length === 0 || (messages.length === 1 && messages[0].sender === "assistant");
+  };
+
+  const shouldShowTristateButtons = () => {
+    const lastBotMessage = getLastBotMessage();
+    return lastBotMessage && lastBotMessage.content.toLowerCase().includes("tristate area");
+  };
+
+  const shouldShowAppointmentTimeButtons = () => {
+    const lastBotMessage = getLastBotMessage();
+    return lastBotMessage && (lastBotMessage.content.includes("Monday") || lastBotMessage.content.includes("Tuesday") || lastBotMessage.content.includes("Wednesday"));
+  };
+
   const shouldShowQuickResponses = () => {
     const lastBotMessage = getLastBotMessage();
     return lastBotMessage && lastBotMessage.content.toLowerCase().includes("schedule an appointment");
@@ -183,6 +198,108 @@ export function ChatInterface({ sessionId }: ChatInterfaceProps) {
               )}
             </div>
           ))
+        )}
+
+        {/* Initial Options Buttons */}
+        {shouldShowInitialOptions() && (
+          <div className="grid grid-cols-2 gap-2 ml-11 max-w-md">
+            <Button
+              variant="outline"
+              className="text-left p-3 h-auto justify-start bg-blue-50 border-blue-200 hover:bg-blue-100"
+              onClick={() => handleQuickResponse("I would like to schedule an appointment")}
+              disabled={sendMessageMutation.isPending}
+            >
+              <div>
+                <p className="font-medium text-blue-800 text-sm">📅 Scheduling</p>
+                <p className="text-xs text-blue-600">Book an appointment</p>
+              </div>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="text-left p-3 h-auto justify-start bg-green-50 border-green-200 hover:bg-green-100"
+              onClick={() => handleQuickResponse("I need help with getting imaging")}
+              disabled={sendMessageMutation.isPending}
+            >
+              <div>
+                <p className="font-medium text-green-800 text-sm">🏥 Imaging</p>
+                <p className="text-xs text-green-600">MRI, CT scans</p>
+              </div>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="text-left p-3 h-auto justify-start bg-purple-50 border-purple-200 hover:bg-purple-100"
+              onClick={() => handleQuickResponse("I want to learn more about your doctors")}
+              disabled={sendMessageMutation.isPending}
+            >
+              <div>
+                <p className="font-medium text-purple-800 text-sm">👨‍⚕️ Doctors</p>
+                <p className="text-xs text-purple-600">Find specialists</p>
+              </div>
+            </Button>
+            
+            <Button
+              variant="outline"
+              className="text-left p-3 h-auto justify-start bg-gray-50 border-gray-200 hover:bg-gray-100"
+              onClick={() => handleQuickResponse("I have a different question")}
+              disabled={sendMessageMutation.isPending}
+            >
+              <div>
+                <p className="font-medium text-gray-800 text-sm">❓ Something else</p>
+                <p className="text-xs text-gray-600">Other inquiries</p>
+              </div>
+            </Button>
+          </div>
+        )}
+
+        {/* Tristate Area Buttons */}
+        {shouldShowTristateButtons() && (
+          <div className="flex space-x-2 ml-11">
+            <Button
+              size="sm"
+              onClick={() => handleQuickResponse("Yes, I am in the tristate area (NY, NJ, CT)")}
+              disabled={sendMessageMutation.isPending}
+            >
+              Yes, I'm in NY/NJ/CT
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => handleQuickResponse("No, I am not in the tristate area")}
+              disabled={sendMessageMutation.isPending}
+            >
+              No, I'm elsewhere
+            </Button>
+          </div>
+        )}
+
+        {/* Appointment Time Selection Buttons */}
+        {shouldShowAppointmentTimeButtons() && (
+          <div className="space-y-2 ml-11 max-w-md">
+            <p className="text-xs text-gray-600 mb-2">Select a time that works for you:</p>
+            <div className="grid grid-cols-1 gap-1 max-h-32 overflow-y-auto">
+              {/* These will be populated dynamically based on available slots shown */}
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-left justify-start h-8"
+                onClick={() => handleQuickResponse("I'll take the first available appointment time")}
+                disabled={sendMessageMutation.isPending}
+              >
+                📅 First available time
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                className="text-left justify-start h-8"
+                onClick={() => handleQuickResponse("Let me provide my preferred times")}
+                disabled={sendMessageMutation.isPending}
+              >
+                ✏️ I'll specify my preference
+              </Button>
+            </div>
+          </div>
         )}
 
         {/* Quick Response Buttons */}
