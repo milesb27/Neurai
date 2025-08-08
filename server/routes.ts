@@ -40,6 +40,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       Speak simply. Only ask **one question at a time**. Wait for a reply before continuing.
       `.trim();
 
+      const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: message }
+        ]
+      });
+
+
       const reply = response.choices[0].message.content;
       res.json({ reply });
     } catch (error) {
