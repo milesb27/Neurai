@@ -40,17 +40,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       Speak simply. Only ask **one question at a time**. Wait for a reply before continuing.
       `.trim();
 
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: message }
-        ]
-      });
+      // Commented out broken OpenAI call - endpoint not used by frontend
+      // const response = await openai.chat.completions.create({
+      //   model: "gpt-3.5-turbo", 
+      //   messages: [
+      //     { role: "system", content: systemPrompt },
+      //     { role: "user", content: message }
+      //   ]
+      // });
 
 
-      const reply = response.choices[0].message.content;
-      res.json({ reply });
+      // const reply = response.choices[0].message.content;
+      res.json({ reply: "This endpoint is deprecated. Please use /api/chat/session/:sessionId/message instead." });
     } catch (error) {
       console.error("OpenAI error:", error);
       res.status(500).json({ error: "Failed to get response from OpenAI" });
