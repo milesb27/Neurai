@@ -44,17 +44,7 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = await registerRoutes(app);
-
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
-    const status = err.status || err.statusCode || 500;
-    const message = err.message || "Internal Server Error";
-
-    res.status(status).json({ message });
-    throw err;
-  });
-
-   app.post("/chat", async (req: Request, res: Response) => {
+  app.post("/chat", async (req: Request, res: Response) => {
     const { message } = req.body;
 
     if (!message) {
@@ -73,6 +63,15 @@ app.use((req, res, next) => {
       console.error("OpenAI error:", error);
       res.status(500).json({ error: "Failed to get response from OpenAI" });
     }
+  });
+  const server = await registerRoutes(app);
+
+  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+    const status = err.status || err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+
+    res.status(status).json({ message });
+    throw err;
   });
   
   // importantly only setup vite in development and after
