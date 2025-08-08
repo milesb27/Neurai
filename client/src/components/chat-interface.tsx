@@ -133,9 +133,16 @@ export function ChatInterface({ sessionId }: ChatInterfaceProps) {
             </div>
             <div className="flex-1">
               <div className="bg-gray-100 rounded-2xl rounded-tl-sm px-4 py-3 max-w-md">
-                <p className="text-gray-800 text-sm leading-relaxed">
-                  Hello! I'm your AI assistant for the Neurosurgery Department. I'm here to help you schedule an appointment with our specialists.
-                </p>
+                <div className="text-gray-800 text-sm leading-relaxed">
+                  <p className="mb-2">Hello! How can I assist you today? Here are some options:</p>
+                  <ul className="list-disc list-inside space-y-1 mb-2">
+                    <li>Scheduling an appointment</li>
+                    <li>Getting imaging</li>
+                    <li>Learning more about our doctors</li>
+                    <li>Something else</li>
+                  </ul>
+                  <p className="text-red-600 font-medium">If this is an emergency, please call 911.</p>
+                </div>
               </div>
               <p className="text-xs text-gray-500 mt-1 ml-1">Just now</p>
             </div>
