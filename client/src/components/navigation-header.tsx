@@ -16,8 +16,8 @@ export function NavigationHeader({ isAdminView, onToggleView }: NavigationHeader
               <Brain className="text-white text-lg" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-gray-900">Neurosurgery Department</h1>
-              <p className="text-sm text-gray-500">AI Scheduling Assistant</p>
+              <h1 className="text-xl font-semibold text-gray-900">Columbia Neurosurgery Department</h1>
+              <p className="text-sm text-gray-500">AI Assistant</p>
             </div>
           </div>
           

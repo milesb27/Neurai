@@ -43,50 +43,6 @@ export function AppointmentSidebar({ sessionId }: AppointmentSidebarProps) {
 
   return (
     <div className="space-y-6">
-      {/* Current Session Info */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center text-base">
-            <ClipboardCheck className="text-medical-blue mr-2" size={16} />
-            Current Session
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex justify-between items-center py-2 border-b border-gray-100">
-            <span className="text-sm text-gray-600">Status</span>
-            <span className="text-sm font-medium text-green-600">{getStatusText()}</span>
-          </div>
-          <div className="flex justify-between items-center py-2 border-b border-gray-100">
-            <span className="text-sm text-gray-600">Location</span>
-            <span className="text-sm font-medium text-gray-900">
-              {session?.location || "Pending"}
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-2 border-b border-gray-100">
-            <span className="text-sm text-gray-600">Urgency</span>
-            <span className="text-sm font-medium text-gray-500">
-              {session?.urgency ? 
-                session.urgency.charAt(0).toUpperCase() + session.urgency.slice(1) : 
-                "Pending"
-              }
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-2">
-            <span className="text-sm text-gray-600">Progress</span>
-            <span className="text-sm font-medium text-gray-900">{getProgress()}% Complete</span>
-          </div>
-          
-          {/* Progress Bar */}
-          <div className="mt-4">
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div 
-                className="bg-medical-blue h-2 rounded-full transition-all duration-300" 
-                style={{ width: `${getProgress()}%` }}
-              ></div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Available Doctors */}
       <Card>
@@ -124,7 +80,7 @@ export function AppointmentSidebar({ sessionId }: AppointmentSidebarProps) {
         <CardHeader>
           <CardTitle className="flex items-center text-base">
             <HelpCircle className="text-medical-blue mr-2" size={16} />
-            Need Help?
+            Contact Us:
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -132,23 +88,14 @@ export function AppointmentSidebar({ sessionId }: AppointmentSidebarProps) {
             <Phone className="text-medical-blue mr-3" size={16} />
             <div className="text-left">
               <p className="font-medium text-gray-900 text-sm">Call Us</p>
-              <p className="text-xs text-gray-600">(415) 555-0123</p>
+              <p className="text-xs text-gray-600">(917) 414-9116</p>
             </div>
           </Button>
           
           <Button variant="outline" className="w-full justify-start">
             <MessageCircle className="text-medical-blue mr-3" size={16} />
             <div className="text-left">
-              <p className="font-medium text-gray-900 text-sm">Live Chat</p>
-              <p className="text-xs text-gray-600">with human agent</p>
-            </div>
-          </Button>
-          
-          <Button variant="outline" className="w-full justify-start">
-            <FileText className="text-medical-blue mr-3" size={16} />
-            <div className="text-left">
-              <p className="font-medium text-gray-900 text-sm">Patient Portal</p>
-              <p className="text-xs text-gray-600">Access records</p>
+              <p className="font-medium text-gray-900 text-sm">Access records</p>
             </div>
           </Button>
         </CardContent>

@@ -49,25 +49,25 @@ export class MemStorage implements IStorage {
   private initializeDoctors() {
     const sampleDoctors: InsertDoctor[] = [
       {
-        name: "Dr. Sarah Chen",
-        specialty: "Brain Tumor Surgery",
+        name: "Dr. E. Sander Connolly",
+        specialty: "Stroke/blood Surgery",
         rating: 5,
         reviewCount: 127,
-        location: "San Francisco, CA"
+        location: "New York, NY"
       },
       {
-        name: "Dr. Michael Rodriguez",
-        specialty: "Spinal Surgery",
+        name: "Dr. Jeffrey Bruce",
+        specialty: "Tumor Surgery",
         rating: 5,
         reviewCount: 94,
-        location: "San Francisco, CA"
+        location: "New York, NY"
       },
       {
-        name: "Dr. Emily Johnson",
-        specialty: "Pediatric Neurosurgery",
+        name: "Dr. Dean Chou",
+        specialty: "Spinal Surgery",
         rating: 5,
         reviewCount: 156,
-        location: "San Francisco, CA"
+        location: "New York, NY"
       }
     ];
 
