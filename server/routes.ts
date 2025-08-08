@@ -24,10 +24,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
 
     try {
-      const response = await openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [{ role: "user", content: message }],
-      });
+      const systemPrompt = `
+      You are a Columbia neurosurgery intake assistant.
+
+      Greet the patient politely with a warm, professional tone.
+      Start by asking: “Hello! How can I assist you today?” and offer 4 clear options:
+
+      • Scheduling an appointment  
+      • Getting imaging  
+      • Learning more about our doctors  
+      • Something else
+
+      Also remind the user: If this is an emergency, they should call 911.
+
+      Speak simply. Only ask **one question at a time**. Wait for a reply before continuing.
+      `.trim();
 
       const reply = response.choices[0].message.content;
       res.json({ reply });
