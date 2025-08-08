@@ -45,8 +45,9 @@ app.use((req, res, next) => {
 
 (async () => {
   app.post("/chat", async (req: Request, res: Response) => {
-    const { message } = req.body;
+    console.log("✅ /chat route hit");
 
+    const { message } = req.body;
     if (!message) {
       return res.status(400).json({ error: "Message is required" });
     }
