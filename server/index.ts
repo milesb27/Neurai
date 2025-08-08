@@ -12,27 +12,6 @@ const openai = new OpenAI({
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.post("/chat", async (req: Request, res: Response) => {
-  const { message } = req.body;
-
-  if (!message) {
-    return res.status(400).json({ error: "Message is required" });
-  }
-
-  try {
-    const response = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo",
-      messages: [{ role: "user", content: message }],
-    });
-
-    const reply = response.choices[0].message.content;
-    res.json({ reply });
-  } catch (error) {
-    console.error("OpenAI error:", error);
-    res.status(500).json({ error: "Failed to get response from OpenAI" });
-  }
-});
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -75,6 +54,27 @@ app.use((req, res, next) => {
     throw err;
   });
 
+   app.post("/chat", async (req: Request, res: Response) => {
+    const { message } = req.body;
+
+    if (!message) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    try {
+      const response = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [{ role: "user", content: message }],
+      });
+
+      const reply = response.choices[0].message.content;
+      res.json({ reply });
+    } catch (error) {
+      console.error("OpenAI error:", error);
+      res.status(500).json({ error: "Failed to get response from OpenAI" });
+    }
+  });
+  
   // importantly only setup vite in development and after
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
