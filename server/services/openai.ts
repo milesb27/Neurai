@@ -18,19 +18,77 @@ export interface ChatResponse {
   };
 }
 
+function generateNextWeekAppointments(): string {
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const times = ['9:00 AM', '10:30 AM', '1:00 PM', '2:30 PM', '4:00 PM'];
+  
+  // Get next week's dates
+  const today = new Date();
+  const nextMonday = new Date(today);
+  nextMonday.setDate(today.getDate() + (7 - today.getDay() + 1) % 7 || 7);
+  
+  const appointments = [];
+  
+  // Generate 6-8 random appointments for next week
+  const numAppointments = 6 + Math.floor(Math.random() * 3);
+  const usedSlots = new Set();
+  
+  for (let i = 0; i < numAppointments; i++) {
+    let dayIndex, timeIndex, slotKey;
+    do {
+      dayIndex = Math.floor(Math.random() * days.length);
+      timeIndex = Math.floor(Math.random() * times.length);
+      slotKey = `${dayIndex}-${timeIndex}`;
+    } while (usedSlots.has(slotKey));
+    
+    usedSlots.add(slotKey);
+    
+    const appointmentDate = new Date(nextMonday);
+    appointmentDate.setDate(nextMonday.getDate() + dayIndex);
+    
+    appointments.push({
+      day: days[dayIndex],
+      date: appointmentDate.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric' }),
+      time: times[timeIndex]
+    });
+  }
+  
+  // Sort by day of week
+  appointments.sort((a, b) => days.indexOf(a.day) - days.indexOf(b.day));
+  
+  return appointments.map(apt => `• ${apt.day} ${apt.date} at ${apt.time}`).join('\n');
+}
+
 export async function processUserMessage(
   message: string, 
   conversationHistory: Array<{role: 'user' | 'assistant', content: string}>,
   currentStep: string = 'greeting'
 ): Promise<ChatResponse> {
   try {
+    // Check if user is interested in scheduling
+    const isSchedulingRequest = message.toLowerCase().includes('schedul') || 
+                               message.toLowerCase().includes('appointment') ||
+                               message.toLowerCase().includes('book') ||
+                               currentStep === 'scheduling';
+
+    let availableSlots = '';
+    if (isSchedulingRequest) {
+      availableSlots = generateNextWeekAppointments();
+    }
+
     const systemPrompt = `You are an AI assistant for a neurosurgery department. Your role is to:
 1. Ask if the user wants to schedule an appointment
-2. Collect their location
-3. Assess urgency level (emergency, urgent, routine)
-4. Gather basic contact information if they want to proceed
+2. When they want to schedule, show available appointment times
+3. Collect their location
+4. Assess urgency level (emergency, urgent, routine)
+5. Gather basic contact information if they want to proceed
 
 Current conversation step: ${currentStep}
+
+${isSchedulingRequest ? `AVAILABLE APPOINTMENT SLOTS FOR NEXT WEEK:
+${availableSlots}
+
+When the user expresses interest in scheduling, show them these available times and ask them to choose one.` : ''}
 
 Be professional, empathetic, and medically appropriate. For urgency:
 - Emergency: Severe symptoms needing immediate attention
